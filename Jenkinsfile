@@ -8,18 +8,14 @@ node {
             sh 'mvn test'
             junit 'target/surefire-reports/*.xml'
         }
-        stage('Delivery'){
-            sh './jenkins/scripts/deliver.sh'
-            
-        } 
         stage('Manual Approval'){
             input message: 'Lanjutkan ke tahap Deploy?' 
             echo "Mohon tunggu"
+        }
+        stage('Deploy'){
+            sh './jenkins/scripts/deliver.sh'
+            sleep(time: 1, unit: 'MINUTES')
             
         } 
-        stage('Deploy'){
-            echo "Deploying App"
-            sleep(time: 1, unit: 'MINUTES')
-        }
     }
 }
